@@ -10,6 +10,8 @@
 }
 
 .gallery-back {
+  display: inline-block;
+  margin-bottom: var(--space-md);
   font-family: var(--font-sans);
   font-size: var(--font-size-sm);
   color: var(--accent);

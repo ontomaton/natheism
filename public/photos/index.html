@@ -41,6 +41,7 @@
   </div>
 
   <main class="gallery-container">
+    <a href="/" class="gallery-back">&larr; Timeline</a>
     <div class="gallery-grid" id="gallery-grid"></div>
   </main>
 
@@ -58,13 +59,15 @@
   </footer>
 
   <script>
+    const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
     async function loadGallery() {
       const grid = document.getElementById('gallery-grid');
       let allPhotos = [];
 
       try {
         // Load photos from posts
-        const postsRes = await fetch('/data/posts.json');
+        const postsRes = await fetch(IS_LOCAL ? '/data/posts.json' : '/api.php?action=posts');
         const posts = await postsRes.json();
         const postPhotos = posts
           .filter(p => p.type === 'photo' && p.mediaUrl)
