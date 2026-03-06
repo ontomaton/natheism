@@ -45,14 +45,16 @@ function createPostCard(post, isFeatured) {
 
   const typeColor = TYPE_COLORS[post.type] || TYPE_COLORS.text;
 
-  // Meta bar
-  const meta = document.createElement('div');
-  meta.className = 'post-meta';
-  meta.innerHTML = `
+  // Author
+  const authorName = post.author || 'Natheist';
+  const authorBar = document.createElement('div');
+  authorBar.className = 'post-author-bar';
+  authorBar.innerHTML = `
+    <span class="post-author-name">${escapeHtml(authorName)}</span>
     <span class="post-type-label" style="color: ${typeColor}">${TYPE_LABELS[post.type] || 'DISPATCH'}</span>
     <span class="post-timestamp">${formatTimestamp(post.timestamp)}</span>
   `;
-  card.appendChild(meta);
+  card.appendChild(authorBar);
 
   // Content
   if (post.content) {

@@ -59,6 +59,9 @@ composeForm.addEventListener('submit', async (e) => {
   formData.append('type', type);
   formData.append('content', document.getElementById('post-content').value);
 
+  const author = document.getElementById('post-author').value.trim();
+  if (author) formData.append('author', author);
+
   const likes = document.getElementById('post-likes').value;
   if (likes) formData.append('likes', likes);
 

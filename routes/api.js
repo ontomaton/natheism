@@ -114,11 +114,12 @@ router.get('/retro-ads', (req, res) => {
 // POST /api/posts - create post (auth required)
 router.post('/posts', requireAuth, upload.single('photo'), (req, res) => {
   const posts = readPosts();
-  const { type, content, mediaUrl, linkUrl, linkTitle, likes, featured } = req.body;
+  const { type, content, author, mediaUrl, linkUrl, linkTitle, likes, featured } = req.body;
 
   const newPost = {
     id: crypto.randomBytes(4).toString('hex'),
     type: type || 'text',
+    author: author || null,
     content: content || '',
     mediaUrl: null,
     linkUrl: linkUrl || null,
