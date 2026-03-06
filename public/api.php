@@ -60,6 +60,32 @@ if ($method === 'GET' && $action === 'posts') {
     exit;
 }
 
+// GET - list gallery photos (no auth needed)
+if ($method === 'GET' && $action === 'gallery') {
+    $galleryDir = __DIR__ . '/gallery';
+    $photos = [];
+    if (is_dir($galleryDir)) {
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $files = scandir($galleryDir);
+        foreach ($files as $file) {
+            if ($file === '.' || $file === '..') continue;
+            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            if (in_array($ext, $allowed)) {
+                $photos[] = [
+                    'url' => '/gallery/' . $file,
+                    'filename' => $file,
+                    'modified' => filemtime($galleryDir . '/' . $file)
+                ];
+            }
+        }
+        usort($photos, function($a, $b) {
+            return $b['modified'] - $a['modified'];
+        });
+    }
+    echo json_encode($photos);
+    exit;
+}
+
 // All other actions require auth
 if (!checkAuth()) {
     http_response_code(401);
@@ -162,32 +188,6 @@ if ($method === 'POST' && $action === 'delete' && $id) {
         http_response_code(404);
         echo json_encode(['error' => 'POST NOT FOUND.']);
     }
-    exit;
-}
-
-// GET - list gallery photos (no auth needed)
-if ($method === 'GET' && $action === 'gallery') {
-    $galleryDir = __DIR__ . '/gallery';
-    $photos = [];
-    if (is_dir($galleryDir)) {
-        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        $files = scandir($galleryDir);
-        foreach ($files as $file) {
-            if ($file === '.' || $file === '..') continue;
-            $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            if (in_array($ext, $allowed)) {
-                $photos[] = [
-                    'url' => '/gallery/' . $file,
-                    'filename' => $file,
-                    'modified' => filemtime($galleryDir . '/' . $file)
-                ];
-            }
-        }
-        usort($photos, function($a, $b) {
-            return $b['modified'] - $a['modified'];
-        });
-    }
-    echo json_encode($photos);
     exit;
 }
 
