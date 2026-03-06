@@ -144,6 +144,36 @@
   color: var(--text-secondary);
 }
 
+/* Bio */
+.profile-bio {
+  margin-top: 6px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* Links */
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.profile-link {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.profile-link:hover {
+  text-decoration: underline;
+}
+
 .profile-stat-link {
   text-decoration: none;
   color: var(--accent);
