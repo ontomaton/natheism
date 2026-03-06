@@ -374,6 +374,9 @@ async function init() {
     const ads = await adsRes.json();
     const retroAds = await retroRes.json();
 
+    // Sort newest first
+    posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
     const featured = posts.filter(p => p.featured);
     const regular = posts.filter(p => !p.featured);
 
