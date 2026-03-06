@@ -16,7 +16,11 @@ jobs:
         run: |
           mkdir -p deploy/data deploy/uploads
           cp -r public/* deploy/
-          cp data/*.json deploy/data/
+          # Copy data files EXCEPT posts.json (managed by PHP API on server)
+          for f in data/*.json; do
+            [ "$(basename "$f")" = "posts.json" ] && continue
+            cp "$f" deploy/data/
+          done
           cp -r uploads/* deploy/uploads/ 2>/dev/null || true
 
       - name: Deploy files
