@@ -118,6 +118,20 @@ if ($method === 'POST' && $action === 'create') {
         'featured' => $featured,
     ];
 
+    // Auto-detect YouTube URLs in text/link posts → convert to video
+    if ($type === 'text' || $type === 'link') {
+        $textToCheck = ($type === 'link' && $linkUrl) ? $linkUrl : $content;
+        $ytPattern = '/https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})[^\s]*/';
+        if (preg_match($ytPattern, $textToCheck, $ytMatch)) {
+            $videoId = $ytMatch[1];
+            $newPost['type'] = 'video';
+            $newPost['mediaUrl'] = "https://www.youtube.com/embed/$videoId";
+            $newPost['content'] = trim(preg_replace($ytPattern, '', $content));
+            $newPost['linkUrl'] = null;
+            $newPost['linkTitle'] = null;
+        }
+    }
+
     // Handle photo upload
     if ($type === 'photo' && isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
         if (!is_dir($UPLOADS_DIR)) {

@@ -49,6 +49,7 @@
     <button class="lightbox-close" id="lightbox-close">&times;</button>
     <div class="lightbox-content">
       <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <div class="lightbox-video" id="lightbox-video"></div>
       <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
   </div>
@@ -63,54 +64,83 @@
 
     async function loadGallery() {
       const grid = document.getElementById('gallery-grid');
-      let allPhotos = [];
+      let allItems = [];
 
       try {
-        // Load photos from posts
         const postsRes = await fetch(IS_LOCAL ? '/data/posts.json' : '/api.php?action=posts');
         const posts = await postsRes.json();
-        const postPhotos = posts
-          .filter(p => p.type === 'photo' && p.mediaUrl)
-          .map(p => ({ url: p.mediaUrl, content: p.content, author: p.author, timestamp: p.timestamp }));
-        allPhotos = allPhotos.concat(postPhotos);
+
+        // Photos from posts
+        posts.filter(p => p.type === 'photo' && p.mediaUrl).forEach(p => {
+          allItems.push({ type: 'photo', url: p.mediaUrl, content: p.content, author: p.author, timestamp: p.timestamp });
+        });
+
+        // Videos from posts (YouTube thumbnails)
+        posts.filter(p => p.type === 'video' && p.mediaUrl).forEach(p => {
+          const vidMatch = p.mediaUrl.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+          if (vidMatch) {
+            allItems.push({
+              type: 'video',
+              url: p.mediaUrl,
+              thumbUrl: 'https://img.youtube.com/vi/' + vidMatch[1] + '/hqdefault.jpg',
+              content: p.content, author: p.author, timestamp: p.timestamp
+            });
+          }
+        });
       } catch (err) {}
 
-      try {
-        // Load photos from gallery folder
-        const galleryRes = await fetch('/api.php?action=gallery');
-        if (galleryRes.ok) {
-          const galleryPhotos = await galleryRes.json();
-          const folderPhotos = galleryPhotos.map(g => ({ url: g.url, content: null, author: null, timestamp: null }));
-          allPhotos = allPhotos.concat(folderPhotos);
-        }
-      } catch (err) {}
+      if (!IS_LOCAL) {
+        try {
+          const galleryRes = await fetch('/api.php?action=gallery');
+          if (galleryRes.ok) {
+            const galleryPhotos = await galleryRes.json();
+            galleryPhotos.forEach(g => {
+              allItems.push({ type: 'photo', url: g.url, content: null, author: null, timestamp: null });
+            });
+          }
+        } catch (err) {}
+      }
 
-      if (allPhotos.length === 0) {
+      if (allItems.length === 0) {
         grid.innerHTML = '<div class="gallery-empty">NO VISUAL RECORDS ON FILE.</div>';
         return;
       }
 
-      allPhotos.forEach(photo => {
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.innerHTML = `<img src="${photo.url}" alt="Visual record" loading="lazy">`;
-        item.addEventListener('click', () => openLightbox(photo));
-        grid.appendChild(item);
+      allItems.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'gallery-item' + (item.type === 'video' ? ' gallery-item-video' : '');
+        const imgSrc = item.type === 'video' ? item.thumbUrl : item.url;
+        el.innerHTML = '<img src="' + imgSrc + '" alt="Visual record" loading="lazy">';
+        if (item.type === 'video') {
+          el.innerHTML += '<div class="gallery-play-overlay">\u25B6</div>';
+        }
+        el.addEventListener('click', () => openLightbox(item));
+        grid.appendChild(el);
       });
     }
 
-    function openLightbox(photo) {
+    function openLightbox(item) {
       const lightbox = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');
+      const video = document.getElementById('lightbox-video');
       const caption = document.getElementById('lightbox-caption');
 
-      img.src = photo.url;
-      img.alt = photo.content || 'Visual record';
+      if (item.type === 'video') {
+        img.style.display = 'none';
+        video.style.display = 'block';
+        video.innerHTML = '<iframe src="' + item.url + '?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      } else {
+        img.style.display = 'block';
+        video.style.display = 'none';
+        video.innerHTML = '';
+        img.src = item.url;
+        img.alt = item.content || 'Visual record';
+      }
 
       let captionHtml = '';
-      if (photo.author || photo.content) {
-        if (photo.author) captionHtml += `<strong>${escapeHtml(photo.author)}</strong> `;
-        if (photo.content) captionHtml += escapeHtml(photo.content);
+      if (item.author || item.content) {
+        if (item.author) captionHtml += '<strong>' + escapeHtml(item.author) + '</strong> ';
+        if (item.content) captionHtml += escapeHtml(item.content);
       }
       caption.innerHTML = captionHtml;
 
@@ -119,6 +149,8 @@
     }
 
     function closeLightbox() {
+      var video = document.getElementById('lightbox-video');
+      video.innerHTML = '';
       document.getElementById('lightbox').classList.remove('active');
       document.body.style.overflow = '';
     }

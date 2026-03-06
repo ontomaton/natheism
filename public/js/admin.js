@@ -56,11 +56,27 @@ composeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   composeSuccess.textContent = '';
 
-  const type = postTypeSelect.value;
+  let type = postTypeSelect.value;
+  let content = document.getElementById('post-content').value;
   const formData = new FormData();
 
+  // Auto-detect YouTube URLs in text/link posts → convert to video embed
+  const ytRegex = /https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})[^\s]*/;
+  let autoVideoUrl = null;
+  if (type === 'text' || type === 'link') {
+    // Check content field and link URL field
+    const linkUrl = document.getElementById('post-link-url').value;
+    const textToCheck = type === 'link' ? (linkUrl || content) : content;
+    const ytMatch = textToCheck.match(ytRegex);
+    if (ytMatch) {
+      type = 'video';
+      autoVideoUrl = ytMatch[0];
+      content = content.replace(ytRegex, '').trim();
+    }
+  }
+
   formData.append('type', type);
-  formData.append('content', document.getElementById('post-content').value);
+  formData.append('content', content);
 
   const author = document.getElementById('post-author').value.trim();
   if (author) formData.append('author', author);
@@ -77,7 +93,7 @@ composeForm.addEventListener('submit', async (e) => {
   }
 
   if (type === 'video') {
-    formData.append('mediaUrl', document.getElementById('post-video-url').value);
+    formData.append('mediaUrl', autoVideoUrl || document.getElementById('post-video-url').value);
   }
 
   if (type === 'link') {
@@ -120,7 +136,7 @@ composeForm.addEventListener('submit', async (e) => {
 // Load all posts for management
 async function loadPosts() {
   try {
-    const res = await fetch('/data/posts.json');
+    const res = await fetch(IS_LOCAL ? '/data/posts.json' : '/api.php?action=posts');
     const posts = await res.json();
 
     postList.innerHTML = '';
