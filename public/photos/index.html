@@ -60,27 +60,40 @@
   <script>
     async function loadGallery() {
       const grid = document.getElementById('gallery-grid');
+      let allPhotos = [];
 
       try {
-        const res = await fetch('/data/posts.json');
-        const posts = await res.json();
-        const photos = posts.filter(p => p.type === 'photo' && p.mediaUrl);
+        // Load photos from posts
+        const postsRes = await fetch('/data/posts.json');
+        const posts = await postsRes.json();
+        const postPhotos = posts
+          .filter(p => p.type === 'photo' && p.mediaUrl)
+          .map(p => ({ url: p.mediaUrl, content: p.content, author: p.author, timestamp: p.timestamp }));
+        allPhotos = allPhotos.concat(postPhotos);
+      } catch (err) {}
 
-        if (photos.length === 0) {
-          grid.innerHTML = '<div class="gallery-empty">NO VISUAL RECORDS ON FILE.</div>';
-          return;
+      try {
+        // Load photos from gallery folder
+        const galleryRes = await fetch('/api.php?action=gallery');
+        if (galleryRes.ok) {
+          const galleryPhotos = await galleryRes.json();
+          const folderPhotos = galleryPhotos.map(g => ({ url: g.url, content: null, author: null, timestamp: null }));
+          allPhotos = allPhotos.concat(folderPhotos);
         }
+      } catch (err) {}
 
-        photos.forEach(photo => {
-          const item = document.createElement('div');
-          item.className = 'gallery-item';
-          item.innerHTML = `<img src="${photo.mediaUrl}" alt="Visual record" loading="lazy">`;
-          item.addEventListener('click', () => openLightbox(photo));
-          grid.appendChild(item);
-        });
-      } catch (err) {
-        grid.innerHTML = '<div class="gallery-empty">FAILED TO RETRIEVE VISUAL RECORDS.</div>';
+      if (allPhotos.length === 0) {
+        grid.innerHTML = '<div class="gallery-empty">NO VISUAL RECORDS ON FILE.</div>';
+        return;
       }
+
+      allPhotos.forEach(photo => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `<img src="${photo.url}" alt="Visual record" loading="lazy">`;
+        item.addEventListener('click', () => openLightbox(photo));
+        grid.appendChild(item);
+      });
     }
 
     function openLightbox(photo) {
@@ -88,7 +101,7 @@
       const img = document.getElementById('lightbox-img');
       const caption = document.getElementById('lightbox-caption');
 
-      img.src = photo.mediaUrl;
+      img.src = photo.url;
       img.alt = photo.content || 'Visual record';
 
       let captionHtml = '';
