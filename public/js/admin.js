@@ -1,3 +1,5 @@
+const AUTH_HASH = '6c02b16dd0d13afc3545898c99a341b41e44d88c4bda8e50d0104d00200fcd0e';
+
 const TYPE_LABELS = {
   text: 'DISPATCH',
   photo: 'VISUAL RECORD',
@@ -5,79 +7,32 @@ const TYPE_LABELS = {
   link: 'EXTERNAL RESOURCE'
 };
 
-const loginSection = document.getElementById('login-section');
 const dashboardSection = document.getElementById('dashboard-section');
-const loginForm = document.getElementById('login-form');
-const loginError = document.getElementById('login-error');
 const logoutBtn = document.getElementById('logout-btn');
 const composeForm = document.getElementById('compose-form');
 const composeSuccess = document.getElementById('compose-success');
 const postTypeSelect = document.getElementById('post-type');
 const postList = document.getElementById('post-list');
 
-// Media field containers
 const photoFields = document.getElementById('photo-fields');
 const videoFields = document.getElementById('video-fields');
 const linkFields = document.getElementById('link-fields');
 
-// Check auth status on load
-async function checkAuth() {
-  try {
-    const res = await fetch('/admin/status');
-    const data = await res.json();
-    if (data.authenticated) {
-      showDashboard();
-    }
-  } catch (e) {
-    // Not authenticated
+// Auth gate — redirect to /login if not authenticated
+function checkAuth() {
+  if (sessionStorage.getItem('natheism_auth') !== AUTH_HASH) {
+    window.location.replace('/login');
+    return false;
   }
-}
-
-function showDashboard() {
-  loginSection.style.display = 'none';
   dashboardSection.classList.add('active');
   loadPosts();
+  return true;
 }
-
-function showLogin() {
-  loginSection.style.display = 'block';
-  dashboardSection.classList.remove('active');
-}
-
-// Login
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  loginError.textContent = '';
-
-  const password = document.getElementById('password-input').value;
-
-  try {
-    const res = await fetch('/admin/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      showDashboard();
-    } else {
-      loginError.textContent = data.message || 'ACCESS DENIED.';
-    }
-  } catch (err) {
-    loginError.textContent = 'CONNECTION FAILURE. TRY AGAIN.';
-  }
-});
 
 // Logout
-logoutBtn.addEventListener('click', async () => {
-  try {
-    await fetch('/admin/logout', { method: 'POST' });
-    showLogin();
-    document.getElementById('password-input').value = '';
-  } catch (err) {
-    console.error('Logout failed:', err);
-  }
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.removeItem('natheism_auth');
+  window.location.href = '/login';
 });
 
 // Toggle media fields based on post type
@@ -156,7 +111,7 @@ composeForm.addEventListener('submit', async (e) => {
 // Load all posts for management
 async function loadPosts() {
   try {
-    const res = await fetch('/api/posts');
+    const res = await fetch('/data/posts.json');
     const posts = await res.json();
 
     postList.innerHTML = '';

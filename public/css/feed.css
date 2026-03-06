@@ -94,6 +94,24 @@
   font-weight: 400;
 }
 
+.profile-stats {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: 4px;
+}
+
+.profile-stat {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.profile-stat strong {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
 /* === FEED LAYOUT === */
 .feed-container {
   max-width: 600px;
