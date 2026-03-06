@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NATHEISM — Photos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/photos.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="site-title"><a href="/" data-text="NATHEISM">NATHEISM</a></h1>
+      <span class="site-subtitle">VISUAL RECORDS</span>
+    </div>
+  </header>
+
+  <main class="gallery-container">
+    <div class="gallery-header">
+      <a href="/" class="gallery-back">&larr; Back to feed</a>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">&times;</button>
+    <div class="lightbox-content">
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>NATHEISM v1.0 &mdash; ALL CONTENT APPROVED BY THE BUREAU OF ACCEPTABLE EXPRESSION</p>
+    <p>Your activity has been recorded for quality assurance purposes.</p>
+  </footer>
+
+  <script>
+    async function loadGallery() {
+      const grid = document.getElementById('gallery-grid');
+
+      try {
+        const res = await fetch('/data/posts.json');
+        const posts = await res.json();
+        const photos = posts.filter(p => p.type === 'photo' && p.mediaUrl);
+
+        if (photos.length === 0) {
+          grid.innerHTML = '<div class="gallery-empty">NO VISUAL RECORDS ON FILE.</div>';
+          return;
+        }
+
+        photos.forEach(photo => {
+          const item = document.createElement('div');
+          item.className = 'gallery-item';
+          item.innerHTML = `<img src="${photo.mediaUrl}" alt="Visual record" loading="lazy">`;
+          item.addEventListener('click', () => openLightbox(photo));
+          grid.appendChild(item);
+        });
+      } catch (err) {
+        grid.innerHTML = '<div class="gallery-empty">FAILED TO RETRIEVE VISUAL RECORDS.</div>';
+      }
+    }
+
+    function openLightbox(photo) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+
+      img.src = photo.mediaUrl;
+      img.alt = photo.content || 'Visual record';
+
+      let captionHtml = '';
+      if (photo.author || photo.content) {
+        if (photo.author) captionHtml += `<strong>${escapeHtml(photo.author)}</strong> `;
+        if (photo.content) captionHtml += escapeHtml(photo.content);
+      }
+      caption.innerHTML = captionHtml;
+
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadGallery);
+  </script>
+</body>
+</html>

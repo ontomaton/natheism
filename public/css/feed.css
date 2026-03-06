@@ -111,6 +111,16 @@
   color: var(--text-secondary);
 }
 
+.profile-stat-link {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.profile-stat-link:hover {
+  text-decoration: underline;
+}
+
 /* === FEED LAYOUT === */
 .feed-container {
   max-width: 600px;
