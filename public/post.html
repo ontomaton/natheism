@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NATHEISM — DISPATCH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/feed.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="site-title"><a href="/">NATHEISM</a></h1>
+      <span class="site-subtitle">THE ANTI-SOCIAL NETWORK</span>
+    </div>
+  </header>
+
+  <main class="feed-container">
+    <div id="post-container"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>NATHEISM v1.0 &mdash; ALL CONTENT APPROVED BY THE BUREAU OF ACCEPTABLE EXPRESSION</p>
+    <p>Your activity has been recorded for quality assurance purposes.</p>
+  </footer>
+
+  <script src="/js/feed.js"></script>
+  <script>
+    (async function loadSinglePost() {
+      const pathParts = window.location.pathname.split('/');
+      const postId = pathParts[pathParts.length - 1];
+      const container = document.getElementById('post-container');
+
+      try {
+        const res = await fetch(`/api/posts/${postId}`);
+        if (!res.ok) {
+          container.innerHTML = '<div class="empty-feed">DISPATCH NOT FOUND. IT MAY HAVE BEEN REDACTED.</div>';
+          return;
+        }
+        const post = await res.json();
+        document.title = `NATHEISM — ${(post.content || 'DISPATCH').substring(0, 50).toUpperCase()}`;
+        container.appendChild(createPostCard(post, post.featured));
+      } catch (err) {
+        container.innerHTML = '<div class="empty-feed">DISPATCH RETRIEVAL FAILED. THE BUREAU HAS BEEN NOTIFIED.</div>';
+      }
+    })();
+  </script>
+</body>
+</html>

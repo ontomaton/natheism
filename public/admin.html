@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NATHEISM — CONTROL PANEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="site-title"><a href="/">NATHEISM</a></h1>
+      <span class="site-subtitle">CONTROL PANEL</span>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <!-- Login Form -->
+    <div class="admin-login" id="login-section">
+      <h2>AUTHORIZATION REQUIRED</h2>
+      <form id="login-form">
+        <input type="password" id="password-input" placeholder="ENTER CLEARANCE CODE" autocomplete="off">
+        <button type="submit" class="admin-login-btn">AUTHENTICATE</button>
+      </form>
+      <div class="admin-error" id="login-error"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="admin-dashboard" id="dashboard-section">
+      <div class="admin-header">
+        <h2>COMMAND CENTER</h2>
+        <button class="logout-btn" id="logout-btn">TERMINATE SESSION</button>
+      </div>
+
+      <!-- Compose Form -->
+      <div class="compose-section">
+        <h3>COMPOSE DISPATCH</h3>
+        <form class="compose-form" id="compose-form">
+          <div class="form-group">
+            <label for="post-type">DISPATCH TYPE</label>
+            <select id="post-type" name="type">
+              <option value="text">DISPATCH (TEXT)</option>
+              <option value="photo">VISUAL RECORD (PHOTO)</option>
+              <option value="video">APPROVED MEDIA (VIDEO)</option>
+              <option value="link">EXTERNAL RESOURCE (LINK)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="post-content">CONTENT</label>
+            <textarea id="post-content" name="content" placeholder="Compose your dispatch..."></textarea>
+          </div>
+
+          <!-- Photo fields -->
+          <div class="media-fields" id="photo-fields">
+            <div class="form-group">
+              <label for="post-photo">VISUAL RECORD FILE</label>
+              <input type="file" id="post-photo" name="photo" accept="image/jpeg,image/png,image/gif,image/webp">
+              <div class="help-text">ACCEPTED FORMATS: JPG, PNG, GIF, WEBP. MAX 10MB.</div>
+            </div>
+          </div>
+
+          <!-- Video fields -->
+          <div class="media-fields" id="video-fields">
+            <div class="form-group">
+              <label for="post-video-url">YOUTUBE URL</label>
+              <input type="url" id="post-video-url" name="mediaUrl" placeholder="https://www.youtube.com/watch?v=...">
+              <div class="help-text">PASTE ANY YOUTUBE URL. EMBED WILL BE AUTO-GENERATED.</div>
+            </div>
+          </div>
+
+          <!-- Link fields -->
+          <div class="media-fields" id="link-fields">
+            <div class="form-group">
+              <label for="post-link-url">RESOURCE URL</label>
+              <input type="url" id="post-link-url" name="linkUrl" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label for="post-link-title">RESOURCE TITLE</label>
+              <input type="text" id="post-link-title" name="linkTitle" placeholder="Title of the resource">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-likes">ENDORSEMENTS (OPTIONAL)</label>
+              <input type="number" id="post-likes" name="likes" placeholder="Auto-generated if blank">
+              <div class="help-text">LEAVE BLANK FOR RANDOM 5,000–50,000</div>
+            </div>
+            <div class="form-group">
+              <div class="form-checkbox">
+                <input type="checkbox" id="post-featured" name="featured">
+                <label for="post-featured">BUREAU APPROVED (FEATURED)</label>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">FILE DISPATCH</button>
+          <div class="form-success" id="compose-success"></div>
+        </form>
+      </div>
+
+      <!-- Post List -->
+      <div class="posts-section">
+        <h3>ALL DISPATCHES</h3>
+        <ul class="post-list-admin" id="post-list"></ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>NATHEISM CONTROL PANEL &mdash; AUTHORIZED PERSONNEL ONLY</p>
+    <p>All modifications are logged and irreversible.</p>
+  </footer>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

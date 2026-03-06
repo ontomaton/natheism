@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ad-001",
+    "headline": "INTRODUCING THE BLANK CANDLE",
+    "body": "It's a candle. It smells like nothing. That's the point. Minimalism isn't a lifestyle, it's a purchase you make repeatedly.",
+    "ctaText": "SHOP NOW",
+    "ctaUrl": "#",
+    "sponsor": "Voidhaus",
+    "color": "#C4A882",
+    "icon": "🕯️",
+    "likes": 34201,
+    "shares": 8712
+  },
+  {
+    "id": "ad-002",
+    "headline": "GET PAID TO HAVE A FACE",
+    "body": "Our AI determines your influencer potential based on jaw symmetry and willingness to hold products near your head. Apply now.",
+    "ctaText": "CHECK MY FACE",
+    "ctaUrl": "#",
+    "sponsor": "InfluencerIQ",
+    "color": "#FF6B9D",
+    "icon": "🤳",
+    "likes": 89241,
+    "shares": 23104
+  },
+  {
+    "id": "ad-003",
+    "headline": "HYDRATE SMARTER, NOT HARDER",
+    "body": "Our crystal-charged, moon-blessed, algorithm-optimized water has 47% more hydration energy. Peer-reviewed by our intern.",
+    "ctaText": "SUBSCRIBE",
+    "ctaUrl": "#",
+    "sponsor": "AquaLux Wellness",
+    "color": "#00BCD4",
+    "icon": "💧",
+    "likes": 52803,
+    "shares": 11420
+  },
+  {
+    "id": "ad-004",
+    "headline": "YOUR MORNING ROUTINE IS WRONG",
+    "body": "You're waking up like an amateur. Our 14-step sunrise protocol includes journaling, cold plunges, and silently judging your past self.",
+    "ctaText": "FIX YOURSELF",
+    "ctaUrl": "#",
+    "sponsor": "RiseGrind Co.",
+    "color": "#FF9F0A",
+    "icon": "🌅",
+    "likes": 67102,
+    "shares": 15890
+  },
+  {
+    "id": "ad-005",
+    "headline": "THE $400 PLAIN WHITE T-SHIRT",
+    "body": "Hand-stitched by someone who went to art school. The fabric is organic. The price is emotional. You deserve this.",
+    "ctaText": "ADD TO CART",
+    "ctaUrl": "#",
+    "sponsor": "Essentiels",
+    "color": "#9E9E9E",
+    "icon": "👕",
+    "likes": 41830,
+    "shares": 9201
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "retro-001",
+    "icon": "🧊",
+    "headline": "ARTISANAL\nICE CUBES",
+    "tagline": "HAND-FROZEN. SINGLE ORIGIN. $12 EACH.",
+    "copy": "BECAUSE YOUR DRINK DESERVES BETTER THAN TAP WATER FROZEN IN A TRAY LIKE SOME KIND OF ANIMAL",
+    "publisher": "GLACIAIRE",
+    "style": "pulse",
+    "bgColor": "#0a1a2e",
+    "textColor": "#00bcd4",
+    "accentColor": "#80deea"
+  },
+  {
+    "id": "retro-002",
+    "icon": "🧘",
+    "headline": "MINDFULNESS\nAPP PRO MAX",
+    "tagline": "REDUCE ANXIETY ABOUT YOUR 47 OTHER APPS.",
+    "copy": "ONLY $29.99/MO · CANCEL ANYTIME BUT YOU WON'T BECAUSE OF THE GUILT",
+    "publisher": "INNER PEACE INC",
+    "style": "scan",
+    "bgColor": "#1a0a2e",
+    "textColor": "#ce93d8",
+    "accentColor": "#f48fb1"
+  },
+  {
+    "id": "retro-003",
+    "icon": "🪴",
+    "headline": "SUBSCRIPTION\nPLANTS",
+    "tagline": "A NEW PLANT EVERY MONTH TO SLOWLY KILL.",
+    "copy": "EACH ONE ARRIVES WITH A NAME SO YOU CAN FEEL SOMETHING WHEN IT DIES",
+    "publisher": "WILTR",
+    "style": "radar",
+    "bgColor": "#0a1a0a",
+    "textColor": "#66bb6a",
+    "accentColor": "#ffee58"
+  },
+  {
+    "id": "retro-004",
+    "icon": "🏋️",
+    "headline": "SLEEP IS\nA SCAM",
+    "tagline": "REAL ONES GRIND AT 4AM. EVERY AM.",
+    "copy": "JOIN 2 MILLION EXHAUSTED WINNERS WHO REFUSE TO DREAM · HUSTLE NEVER SLEEPS AND NEITHER SHOULD YOU",
+    "publisher": "GRINDSET LABS",
+    "style": "meter",
+    "bgColor": "#1a0a00",
+    "textColor": "#ff7043",
+    "accentColor": "#ffd54f"
+  },
+  {
+    "id": "retro-005",
+    "icon": "🪞",
+    "headline": "SMART\nMIRROR",
+    "tagline": "IT TELLS YOU YOUR SKIN AGE. YOU'LL HATE IT.",
+    "copy": "USES AI TO CALCULATE HOW TIRED YOU LOOK · PAIRS WITH OUR SMART SCALE FOR MAXIMUM DISAPPOINTMENT",
+    "publisher": "REFLEKTIV",
+    "style": "rain",
+    "bgColor": "#0a0a1a",
+    "textColor": "#7986cb",
+    "accentColor": "#b39ddb"
+  },
+  {
+    "id": "retro-006",
+    "icon": "🥑",
+    "headline": "TOAST AS\nA SERVICE",
+    "tagline": "WHY MAKE TOAST WHEN WE CAN CHARGE YOU FOR IT?",
+    "copy": "PREMIUM BREAD · CURATED TOPPINGS · DELIVERED BY SOMEONE WITH A FILM DEGREE · FREE TRIAL THEN $19/MO",
+    "publisher": "TOASTR",
+    "style": "bounce",
+    "bgColor": "#1a1a0a",
+    "textColor": "#ffd54f",
+    "accentColor": "#a5d6a7"
+  }
+]

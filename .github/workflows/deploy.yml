@@ -1,0 +1,33 @@
+name: Deploy to IONOS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare deploy
+        run: |
+          mkdir -p deploy/data deploy/uploads
+          cp -r public/* deploy/
+          cp data/*.json deploy/data/
+          cp -r uploads/* deploy/uploads/ 2>/dev/null || true
+
+      - name: Deploy files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.IONOSHOST }}
+          username: ${{ secrets.IONOSUSER }}
+          key: ${{ secrets.IONOSKEY }}
+          port: 22
+          source: "deploy/*"
+          target: "~/natheism"
+          strip_components: 1
+          overwrite: true
+          rm: false

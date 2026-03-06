@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NATHEISM — The Anti-Social Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/feed.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="site-title"><a href="/">NATHEISM</a></h1>
+      <span class="site-subtitle">THE ANTI-SOCIAL NETWORK</span>
+    </div>
+  </header>
+
+  <div class="cover-photo">
+    <img src="/images/cover.jpg" alt="Cover photo" onerror="this.parentElement.innerHTML='<div class=\'cover-photo-placeholder\'><span class=\'cover-photo-text\'>COVER PHOTO</span></div>'">
+  </div>
+
+  <div class="profile-bar">
+    <div class="profile-bar-inner">
+      <div class="profile-avatar">
+        <img src="/images/profile.jpg" alt="Natheist" onerror="this.style.display='none';this.parentElement.textContent='N'">
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Natheist</div>
+        <div class="profile-handle">@natheism</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-agreement-banner" id="agreement-banner">
+    By continuing to scroll, you agree to the Terms of Unconditional Surrender,
+    the Privacy Dissolution Act, and waive all rights to independent thought.
+    <button class="agree-btn" id="agree-btn">I COMPLY</button>
+  </div>
+
+  <main class="feed-container">
+    <section class="featured-section" id="featured-posts"></section>
+    <section class="feed" id="post-feed"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p>NATHEISM v1.0 &mdash; ALL CONTENT APPROVED BY THE BUREAU OF ACCEPTABLE EXPRESSION</p>
+    <p>Your activity has been recorded for quality assurance purposes.</p>
+  </footer>
+
+  <script src="/js/feed.js"></script>
+</body>
+</html>
