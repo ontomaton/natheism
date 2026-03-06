@@ -1,5 +1,8 @@
 const AUTH_HASH = '6c02b16dd0d13afc3545898c99a341b41e44d88c4bda8e50d0104d00200fcd0e';
 
+// Detect if running on local dev (Node.js) or live (PHP)
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 const TYPE_LABELS = {
   text: 'DISPATCH',
   photo: 'VISUAL RECORD',
@@ -82,8 +85,10 @@ composeForm.addEventListener('submit', async (e) => {
     formData.append('linkTitle', document.getElementById('post-link-title').value);
   }
 
+  const url = IS_LOCAL ? '/api/posts' : '/api.php?action=create';
+
   try {
-    const res = await fetch('/api/posts', {
+    const res = await fetch(url, {
       method: 'POST',
       headers: { 'X-Auth': AUTH_HASH },
       body: formData
@@ -145,15 +150,21 @@ async function loadPosts() {
       `;
 
       // Feature toggle
+      const featureUrl = IS_LOCAL
+        ? `/api/posts/${post.id}/feature`
+        : `/api.php?action=feature&id=${post.id}`;
       li.querySelector('.feature-btn').addEventListener('click', async () => {
-        await fetch(`/api/posts/${post.id}/feature`, { method: 'POST', headers: { 'X-Auth': AUTH_HASH } });
+        await fetch(featureUrl, { method: 'POST', headers: { 'X-Auth': AUTH_HASH } });
         loadPosts();
       });
 
       // Delete
+      const deleteUrl = IS_LOCAL
+        ? `/api/posts/${post.id}`
+        : `/api.php?action=delete&id=${post.id}`;
       li.querySelector('.delete-btn').addEventListener('click', async () => {
         if (confirm('CONFIRM REDACTION OF THIS DISPATCH?')) {
-          await fetch(`/api/posts/${post.id}`, { method: 'DELETE', headers: { 'X-Auth': AUTH_HASH } });
+          await fetch(deleteUrl, { method: 'POST', headers: { 'X-Auth': AUTH_HASH } });
           loadPosts();
         }
       });
