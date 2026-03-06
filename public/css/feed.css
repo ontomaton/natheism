@@ -67,11 +67,44 @@
   overflow: hidden;
 }
 
+.profile-avatar {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+}
+
 .profile-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Profile picture viewer overlay */
+.profile-viewer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-viewer-overlay.active {
+  display: flex;
+}
+
+.profile-viewer-overlay img {
+  max-width: min(90vw, 500px);
+  max-height: 90vh;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
 }
 
 .profile-info {

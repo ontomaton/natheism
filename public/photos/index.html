@@ -59,6 +59,20 @@
     <p>Your activity has been recorded for quality assurance purposes.</p>
   </footer>
 
+  <div class="profile-viewer-overlay" id="profile-viewer">
+    <img src="/images/profile.jpg" alt="Natheist">
+  </div>
+  <script>
+    (function() {
+      var avatar = document.querySelector('.profile-avatar');
+      var viewer = document.getElementById('profile-viewer');
+      if (avatar && viewer) {
+        avatar.addEventListener('click', function() { viewer.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        viewer.addEventListener('click', function() { viewer.classList.remove('active'); document.body.style.overflow = ''; });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { viewer.classList.remove('active'); document.body.style.overflow = ''; } });
+      }
+    })();
+  </script>
   <script>
     const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
