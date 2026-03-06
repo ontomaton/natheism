@@ -1,3 +1,5 @@
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 const TYPE_LABELS = {
   text: 'DISPATCH',
   photo: 'VISUAL RECORD',
@@ -363,7 +365,7 @@ async function init() {
 
   try {
     const [postsRes, adsRes, retroRes] = await Promise.all([
-      fetch('/data/posts.json'),
+      fetch(IS_LOCAL ? '/data/posts.json' : '/api.php?action=posts'),
       fetch('/data/ads.json'),
       fetch('/data/retro_ads.json')
     ]);

@@ -35,12 +35,23 @@
       const container = document.getElementById('post-container');
 
       try {
-        const res = await fetch(`/api/posts/${postId}`);
-        if (!res.ok) {
-          container.innerHTML = '<div class="empty-feed">DISPATCH NOT FOUND. IT MAY HAVE BEEN REDACTED.</div>';
-          return;
+        let post;
+        if (IS_LOCAL) {
+          const res = await fetch(`/api/posts/${postId}`);
+          if (!res.ok) {
+            container.innerHTML = '<div class="empty-feed">DISPATCH NOT FOUND. IT MAY HAVE BEEN REDACTED.</div>';
+            return;
+          }
+          post = await res.json();
+        } else {
+          const res = await fetch('/api.php?action=posts');
+          const posts = await res.json();
+          post = posts.find(p => p.id === postId);
+          if (!post) {
+            container.innerHTML = '<div class="empty-feed">DISPATCH NOT FOUND. IT MAY HAVE BEEN REDACTED.</div>';
+            return;
+          }
         }
-        const post = await res.json();
         document.title = `NATHEISM — ${(post.content || 'DISPATCH').substring(0, 50).toUpperCase()}`;
         container.appendChild(createPostCard(post, post.featured));
       } catch (err) {
