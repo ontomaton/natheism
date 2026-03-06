@@ -58,5 +58,29 @@
     "icon": "👕",
     "likes": 41830,
     "shares": 9201
+  },
+  {
+    "id": "ad-006",
+    "headline": "RENT A FRIEND FOR $79/HR",
+    "body": "Tired of meaningful human connection? Our professionally trained companions will laugh at your jokes and never ask to borrow money.",
+    "ctaText": "BOOK A BUDDY",
+    "ctaUrl": "#",
+    "sponsor": "PalCo",
+    "color": "#7C4DFF",
+    "icon": "🤝",
+    "likes": 73205,
+    "shares": 19442
+  },
+  {
+    "id": "ad-007",
+    "headline": "AI-GENERATED NOSTALGIA",
+    "body": "Miss memories you never had? Our algorithm creates fake childhood photos so convincing you'll cry at Thanksgiving. Satisfaction guaranteed.",
+    "ctaText": "REMEMBER NOW",
+    "ctaUrl": "#",
+    "sponsor": "MemoVault",
+    "color": "#E91E63",
+    "icon": "📸",
+    "likes": 58019,
+    "shares": 14201
   }
 ]

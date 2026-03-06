@@ -398,10 +398,13 @@ async function init() {
       return;
     }
 
+    // Show an ad after every post when few posts, every 2 when many
+    const adInterval = regular.length <= 4 ? 1 : 2;
+
     regular.forEach((post, i) => {
       feed.appendChild(createPostCard(post, false));
 
-      if ((i + 1) % 2 === 0) {
+      if ((i + 1) % adInterval === 0) {
         // Alternate: even slots get regular ads, odd slots get retro
         if (adSlot % 2 === 1 && retroAds.length > 0) {
           feed.appendChild(createRetroAdCard(retroAds[retroIndex % retroAds.length]));
