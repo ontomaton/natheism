@@ -8,20 +8,39 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/feed.css">
   <link rel="stylesheet" href="/css/photos.css">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
       <h1 class="site-title"><a href="/" data-text="NATHEISM">NATHEISM</a></h1>
-      <span class="site-subtitle">VISUAL RECORDS</span>
+      <span class="site-subtitle">THE ANTI-SOCIAL NETWORK</span>
     </div>
   </header>
 
-  <main class="gallery-container">
-    <div class="gallery-header">
-      <a href="/" class="gallery-back">&larr; Back to feed</a>
+  <div class="cover-photo">
+    <img src="/images/cover.jpg" alt="Cover photo" onerror="this.parentElement.innerHTML='<div class=\'cover-photo-placeholder\'><span class=\'cover-photo-text\'>COVER PHOTO</span></div>'">
+  </div>
+
+  <div class="profile-bar">
+    <div class="profile-bar-inner">
+      <div class="profile-avatar">
+        <img src="/images/profile.jpg" alt="Natheist" onerror="this.style.display='none';this.parentElement.textContent='N'">
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Natheist</div>
+        <div class="profile-handle">@natheism</div>
+        <div class="profile-stats">
+          <span class="profile-stat"><strong>0</strong> Followers</span>
+          <span class="profile-stat"><strong>0</strong> Friends</span>
+          <a href="/photos" class="profile-stat profile-stat-link">Photos</a>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <main class="gallery-container">
     <div class="gallery-grid" id="gallery-grid"></div>
   </main>
 
