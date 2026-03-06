@@ -85,6 +85,7 @@ composeForm.addEventListener('submit', async (e) => {
   try {
     const res = await fetch('/api/posts', {
       method: 'POST',
+      headers: { 'X-Auth': AUTH_HASH },
       body: formData
     });
 
@@ -145,14 +146,14 @@ async function loadPosts() {
 
       // Feature toggle
       li.querySelector('.feature-btn').addEventListener('click', async () => {
-        await fetch(`/api/posts/${post.id}/feature`, { method: 'POST' });
+        await fetch(`/api/posts/${post.id}/feature`, { method: 'POST', headers: { 'X-Auth': AUTH_HASH } });
         loadPosts();
       });
 
       // Delete
       li.querySelector('.delete-btn').addEventListener('click', async () => {
         if (confirm('CONFIRM REDACTION OF THIS DISPATCH?')) {
-          await fetch(`/api/posts/${post.id}`, { method: 'DELETE' });
+          await fetch(`/api/posts/${post.id}`, { method: 'DELETE', headers: { 'X-Auth': AUTH_HASH } });
           loadPosts();
         }
       });
